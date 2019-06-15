@@ -1,5 +1,5 @@
 <template>
-  <v-layout column>
+  <v-layout row justify-center>
     <v-flex xs12 sm8 md6>
       <counter-list
         :counters="counters"
