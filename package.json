@@ -18,6 +18,8 @@
     "@nuxtjs/vuetify": "0.5.5",
     "localforage": "^1.7.3",
     "nuxt": "^2.0.0",
+    "uuid": "^3.3.2",
+    "vuelidate": "^0.7.4",
     "vuex-persist": "^2.0.1"
   },
   "devDependencies": {

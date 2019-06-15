@@ -6,7 +6,7 @@
         @counterDecrement="onCounterDecrement"
         @counterReset="onCounterReset"
       />
-      <new-counter />
+      <new-counter @addCounter="onAddCounter" />
     </v-flex>
   </v-layout>
 </template>
@@ -31,6 +31,9 @@ export default {
     },
     onCounterReset(id) {
       this.$store.dispatch('counters/resetCounter', id)
+    },
+    onAddCounter(data) {
+      this.$store.dispatch('counters/addCounter', data)
     }
   }
 }

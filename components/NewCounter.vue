@@ -10,32 +10,134 @@
         <v-icon>add</v-icon>
       </v-btn>
     </template>
+
     <v-card>
       <v-toolbar dark color="primary" class="NewCounter__toolbar">
-        <v-btn icon dark @click="dialog = false">
+        <v-btn icon dark @click="cancel">
           <v-icon>close</v-icon>
         </v-btn>
         <v-toolbar-title dark>New Counter</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-toolbar-items>
-          <v-btn flat dark @click="dialog = false">Save</v-btn>
+          <v-btn flat dark @click="submit">Save</v-btn>
         </v-toolbar-items>
       </v-toolbar>
-      <p>New counter creation here!</p>
+
+      <div class="pa-3">
+        <form>
+          <v-text-field
+            v-model="name"
+            :error-messages="nameErrors"
+            label="Name"
+            required
+            @input="$v.name.$touch()"
+            @blur="$v.name.$touch()"
+          ></v-text-field>
+
+          <v-text-field
+            v-model="initialValue"
+            :error-messages="initialValueErrors"
+            label="Initial value"
+            mask="####"
+            required
+            @input="$v.initialValue.$touch()"
+            @blur="$v.initialValue.$touch()"
+          ></v-text-field>
+
+          <v-select
+            v-if="automatic"
+            v-model="resetPeriod"
+            :items="periods"
+            :error-messages="resetPeriodErrors"
+            label="Reset period"
+            required
+            @change="$v.resetPeriod.$touch()"
+            @blur="$v.resetPeriod.$touch()"
+          ></v-select>
+
+          <v-checkbox v-model="automatic" label="Automatic reset?"></v-checkbox>
+
+          <v-btn @click="clear">clear</v-btn>
+        </form>
+      </div>
     </v-card>
   </v-dialog>
 </template>
 
 <script>
+import { required, requiredIf } from 'vuelidate/lib/validators'
+
 export default {
   data: () => ({
     dialog: false,
-    counter: {
-      name: '',
-      manual: true,
-      initialValue: 10
+    name: '',
+    automatic: false,
+    initialValue: 10,
+    resetPeriod: null,
+    periods: [
+      { value: 'day', text: 'Daily' },
+      { value: 'week', text: 'Weekly' },
+      { value: 'month', text: 'Monthly' }
+    ]
+  }),
+  validations: {
+    name: { required },
+    initialValue: { required },
+    resetPeriod: {
+      required: requiredIf(function() {
+        return this.automatic
+      })
     }
-  })
+  },
+  computed: {
+    nameErrors() {
+      const errors = []
+      if (!this.$v.name.$dirty) return errors
+      !this.$v.name.required && errors.push('Name is required.')
+      return errors
+    },
+    initialValueErrors() {
+      const errors = []
+      if (!this.$v.initialValue.$dirty) return errors
+      !this.$v.initialValue.required && errors.push('Count is required.')
+      return errors
+    },
+    resetPeriodErrors() {
+      const errors = []
+      if (!this.$v.resetPeriod.$dirty) return errors
+
+      if (this.automatic && !this.$v.resetPeriod.required) {
+        errors.push('Reset period is required.')
+      }
+      return errors
+    }
+  },
+  methods: {
+    cancel() {
+      this.dialog = false
+      this.clear()
+    },
+    submit() {
+      this.$v.$touch()
+
+      if (!this.$v.$invalid) {
+        const { name, automatic, initialValue, resetPeriod } = this
+        this.$emit('addCounter', { name, automatic, initialValue, resetPeriod })
+        this.dialog = false
+        this.clear()
+      }
+    },
+    resetForm() {
+      this.name = ''
+      this.automatic = false
+      this.initialValue = 10
+      this.resetPeriod = null
+    },
+    clear() {
+      this.$v.$reset()
+      this.resetForm()
+    }
+  }
 }
 </script>
 

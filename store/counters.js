@@ -1,3 +1,5 @@
+import uuidv1 from 'uuid/v1'
+
 export const state = () => ({
   list: []
 })
@@ -22,6 +24,9 @@ export const mutations = {
     if (counter !== undefined) {
       counter.value = counter.initialValue
     }
+  },
+  addCounter(state, counter) {
+    state.list.push(counter)
   }
 }
 
@@ -31,5 +36,11 @@ export const actions = {
   },
   resetCounter({ commit }, id) {
     commit('resetCounter', id)
+  },
+  addCounter({ commit }, data) {
+    const id = uuidv1()
+    const counter = { ...data, id, value: data.initialValue }
+
+    commit('addCounter', counter)
   }
 }
