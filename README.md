@@ -1,6 +1,6 @@
-# Countdown
+# CountTracker
 
-> My priceless Nuxt.js project
+> My cool Nuxt.js project
 
 ## Build Setup
 

@@ -44,7 +44,7 @@ export default {
   data() {
     return {
       drawer: false,
-      title: 'Countdown',
+      title: 'CountTracker',
       items: [
         {
           icon: 'apps',

@@ -5,14 +5,24 @@
         <v-list-tile :key="counter.id">
           <v-list-tile-content>
             <v-list-tile-title
-              >{{ counter.value }}
-              <small>/ {{ counter.initialValue }}</small></v-list-tile-title
+              ><span class="CounterList__value primary--text">{{
+                counter.value
+              }}</span>
+              <small class="grey--text"
+                >/ {{ counter.initialValue }}</small
+              ></v-list-tile-title
             >
             <v-list-tile-sub-title>{{ counter.name }}</v-list-tile-sub-title>
           </v-list-tile-content>
 
           <v-list-tile-action>
-            <v-btn icon ripple color="primary">
+            <v-btn
+              icon
+              ripple
+              color="primary"
+              :disabled="counter.value === 0"
+              @click="onDecrement(counter.id)"
+            >
               <v-icon>
                 arrow_downward
               </v-icon>
@@ -20,7 +30,13 @@
           </v-list-tile-action>
 
           <v-list-tile-action>
-            <v-btn icon ripple color="secondary">
+            <v-btn
+              icon
+              ripple
+              color="secondary"
+              :disabled="counter.value === counter.initialValue"
+              @click="onReset(counter.id)"
+            >
               <v-icon>
                 autorenew
               </v-icon>
@@ -41,6 +57,20 @@ export default {
       type: Array,
       default: () => []
     }
+  },
+  methods: {
+    onDecrement(id) {
+      this.$emit('counterDecrement', id)
+    },
+    onReset(id) {
+      this.$emit('counterReset', id)
+    }
   }
 }
 </script>
+
+<style lang="scss">
+.CounterList__value {
+  font-size: 25px;
+}
+</style>
