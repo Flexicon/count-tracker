@@ -16,8 +16,9 @@
     "@nuxtjs/axios": "^5.3.6",
     "@nuxtjs/pwa": "^2.6.0",
     "@nuxtjs/vuetify": "0.5.5",
+    "localforage": "^1.7.3",
     "nuxt": "^2.0.0",
-    "ts-node": "^8.2.0"
+    "vuex-persist": "^2.0.1"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^0.0.1",
