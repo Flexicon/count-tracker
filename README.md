@@ -1,22 +1,20 @@
 # CountTracker
 
-> My cool Nuxt.js project
+> This app was made with the idea of having a place where one can keep track of arbitrary counters.
 
 ## Build Setup
 
-``` bash
+```bash
 # install dependencies
 $ yarn install
 
 # serve with hot reload at localhost:3000
 $ yarn run dev
 
-# build for production and launch server
-$ yarn run build
-$ yarn start
-
 # generate static project
 $ yarn run generate
+
+# project ready to serve from ./dist folder
 ```
 
 For detailed explanation on how things work, checkout [Nuxt.js docs](https://nuxtjs.org).
