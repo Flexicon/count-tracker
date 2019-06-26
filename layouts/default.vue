@@ -19,10 +19,27 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-toolbar dark color="primary" fixed app>
+    <v-toolbar class="layout__toolbar" dark color="primary" fixed app>
       <v-toolbar-side-icon @click="drawer = !drawer" />
       <v-toolbar-title v-text="title" />
       <v-spacer />
+
+      <v-menu bottom left>
+        <template v-slot:activator="{ on }">
+          <v-btn class="layout__toolbar-menu-btn" dark icon v-on="on">
+            <v-icon>more_vert</v-icon>
+          </v-btn>
+        </template>
+
+        <v-list>
+          <v-list-tile>
+            <v-list-tile-action>
+              <v-switch v-model="editing" color="primary"></v-switch>
+            </v-list-tile-action>
+            <v-list-tile-title>Edit mode</v-list-tile-title>
+          </v-list-tile>
+        </v-list>
+      </v-menu>
     </v-toolbar>
 
     <v-content>
@@ -58,6 +75,16 @@ export default {
         }
       ]
     }
+  },
+  computed: {
+    editing: {
+      get() {
+        return this.$store.state.editing
+      },
+      set(value) {
+        this.$store.dispatch(value ? 'startEditing' : 'stopEditing')
+      }
+    }
   }
 }
 </script>
@@ -68,6 +95,12 @@ export default {
 
   > a {
     text-decoration: none;
+  }
+}
+
+.layout__toolbar {
+  .layout__toolbar-menu-btn {
+    margin-right: -10px;
   }
 }
 </style>

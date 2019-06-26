@@ -3,26 +3,40 @@
     <v-flex xs12 sm8 md6>
       <counter-list
         :counters="counters"
+        :editing="editing"
+        @counterEdit="onCounterStartEdit"
         @counterDecrement="onCounterDecrement"
         @counterReset="onCounterReset"
+        @counterDelete="onCounterDelete"
       />
-      <new-counter @addCounter="onAddCounter" />
+      <create-edit-counter
+        :counter-to-edit="counterToEdit"
+        @addCounter="onAddCounter"
+        @editCancelled="onEditCancelled"
+        @deleteCounter="onCounterDelete"
+      />
     </v-flex>
   </v-layout>
 </template>
 
 <script>
 import CounterList from '~/components/CounterList.vue'
-import NewCounter from '~/components/NewCounter.vue'
+import CreateEditCounter from '~/components/CreateEditCounter.vue'
 
 export default {
   components: {
     CounterList,
-    NewCounter
+    CreateEditCounter
   },
   computed: {
     counters() {
       return this.$store.state.counters.list
+    },
+    counterToEdit() {
+      return this.$store.state.counters.counterToEdit
+    },
+    editing() {
+      return this.$store.state.editing
     }
   },
   methods: {
@@ -34,6 +48,15 @@ export default {
     },
     onAddCounter(data) {
       this.$store.dispatch('counters/addCounter', data)
+    },
+    onCounterStartEdit(id) {
+      this.$store.dispatch('counters/setCounterToEdit', id)
+    },
+    onEditCancelled() {
+      this.$store.dispatch('counters/cancelCounterEdit')
+    },
+    onCounterDelete(id) {
+      this.$store.dispatch('counters/deleteCounter', id)
     }
   }
 }

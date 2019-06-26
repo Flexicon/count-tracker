@@ -16,8 +16,17 @@
         <v-btn icon dark @click="cancel">
           <v-icon>close</v-icon>
         </v-btn>
-        <v-toolbar-title dark>New Counter</v-toolbar-title>
+
+        <v-toolbar-title v-if="!counterToEdit" dark>
+          New Counter
+        </v-toolbar-title>
+
+        <v-toolbar-title v-if="counterToEdit" dark>
+          Edit Counter
+        </v-toolbar-title>
+
         <v-spacer></v-spacer>
+
         <v-toolbar-items>
           <v-btn flat dark @click="submit">Save</v-btn>
         </v-toolbar-items>
@@ -58,6 +67,11 @@
           <v-checkbox v-model="automatic" label="Automatic reset?"></v-checkbox>
 
           <v-btn @click="clear">clear</v-btn>
+
+          <v-btn v-if="counterToEdit" color="error" @click="deleteCounter">
+            <v-icon left dark>delete</v-icon>
+            remove
+          </v-btn>
         </form>
       </div>
     </v-card>
@@ -68,6 +82,12 @@
 import { required, requiredIf } from 'vuelidate/lib/validators'
 
 export default {
+  props: {
+    counterToEdit: {
+      type: Object,
+      default: () => null
+    }
+  },
   data: () => ({
     dialog: false,
     name: '',
@@ -112,10 +132,39 @@ export default {
       return errors
     }
   },
+  watch: {
+    counterToEdit: {
+      immediate: true,
+      handler(counter) {
+        if (!counter) {
+          this.clear()
+        } else {
+          this.dialog = true
+          this.$v.$reset()
+
+          this.name = counter.name
+          this.automatic = counter.automatic
+          this.initialValue = counter.initialValue
+          this.resetPeriod = counter.resetPeriod
+        }
+      }
+    }
+  },
   methods: {
     cancel() {
       this.dialog = false
       this.clear()
+
+      if (this.counterToEdit) {
+        this.$emit('editCancelled')
+      }
+    },
+    deleteCounter() {
+      if (this.counterToEdit) {
+        const id = this.counterToEdit.id
+        this.cancel()
+        this.$emit('deleteCounter', id)
+      }
     },
     submit() {
       this.$v.$touch()
