@@ -9067,6 +9067,11 @@ vuelidate@^0.7.4:
   resolved "https://registry.yarnpkg.com/vuelidate/-/vuelidate-0.7.4.tgz#5a0e54be09ac0192f1aa3387d74b92e0945bf8aa"
   integrity sha512-QHZWYOL325Zo+2K7VBNEJTZ496Kd8Z31p85aQJFldKudUUGBmgw4zu4ghl4CyqPwjRCmqZ9lDdx4FSdMnu4fGg==
 
+vuetify-confirm@^0.2.6:
+  version "0.2.6"
+  resolved "https://registry.yarnpkg.com/vuetify-confirm/-/vuetify-confirm-0.2.6.tgz#9b6c4da87eb60c6c9c2dfec4a9df32cfbf042527"
+  integrity sha512-Lb0MnZXwFlbli9HmAC+ulUBSep4o5UteWRJB+BcaUTkXsSLwv3Imwfj+mYgO24p1opZLdzP7vnszELebYGOfog==
+
 vuetify@^1.5.1:
   version "1.5.14"
   resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-1.5.14.tgz#ff67d0b8a398be5297da159b6cd1b31f4d2898b8"

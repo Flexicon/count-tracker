@@ -159,11 +159,14 @@ export default {
         this.$emit('editCancelled')
       }
     },
-    deleteCounter() {
+    async deleteCounter() {
       if (this.counterToEdit) {
-        const id = this.counterToEdit.id
-        this.cancel()
-        this.$emit('deleteCounter', id)
+        const sure = await this.$confirm('Are you sure?')
+        if (sure) {
+          const id = this.counterToEdit.id
+          this.cancel()
+          this.$emit('deleteCounter', id)
+        }
       }
     },
     submit() {

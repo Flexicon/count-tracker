@@ -87,8 +87,11 @@ export default {
     onCounterEdit(id) {
       this.$emit('counterEdit', id)
     },
-    onCounterDelete(id) {
-      this.$emit('counterDelete', id)
+    async onCounterDelete(id) {
+      const sure = await this.$confirm('Are you sure?')
+      if (sure) {
+        this.$emit('counterDelete', id)
+      }
     },
     onDecrement(id) {
       this.$emit('counterDecrement', id)
