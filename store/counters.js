@@ -5,12 +5,18 @@ export const state = () => ({
   counterToEdit: null
 })
 
+/**
+ * Getters
+ */
 export const getters = {
   getCounterById: state => id => {
     return state.list.find(compareId(id))
   }
 }
 
+/**
+ * Mutations
+ */
 export const mutations = {
   decrementCounter(state, counter) {
     if (counter.value !== 0) {
@@ -26,6 +32,20 @@ export const mutations = {
     state.list.push(counter)
   },
 
+  editCounter(state, { id, data }) {
+    const counter = state.list.find(counter => counter.id === id)
+
+    if (counter) {
+      const { initialValue } = data
+      const { value } = counter
+
+      Object.assign(counter, {
+        ...data,
+        value: initialValue < value ? initialValue : value
+      })
+    }
+  },
+
   setCounterToEdit(state, counter) {
     state.counterToEdit = counter
   },
@@ -35,6 +55,9 @@ export const mutations = {
   }
 }
 
+/**
+ * Actions
+ */
 export const actions = {
   decrementCounter({ commit, getters }, id) {
     const counter = getters.getCounterById(id)
@@ -59,7 +82,14 @@ export const actions = {
     commit('addCounter', counter)
   },
 
-  setCounterToEdit({ commit, getters, dispatch }, id) {
+  editCounter({ commit, getters }, counter) {
+    const { id, ...data } = counter
+
+    commit('editCounter', { id, data })
+    commit('setCounterToEdit', null)
+  },
+
+  setCounterToEdit({ commit, getters }, id) {
     const counter = getters.getCounterById(id)
 
     if (counter) {

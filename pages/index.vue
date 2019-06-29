@@ -12,6 +12,7 @@
       <create-edit-counter
         :counter-to-edit="counterToEdit"
         @addCounter="onAddCounter"
+        @editCounter="onEditCounter"
         @editCancelled="onEditCancelled"
         @deleteCounter="onCounterDelete"
       />
@@ -48,6 +49,9 @@ export default {
     },
     onAddCounter(data) {
       this.$store.dispatch('counters/addCounter', data)
+    },
+    onEditCounter(data) {
+      this.$store.dispatch('counters/editCounter', data)
     },
     onCounterStartEdit(id) {
       this.$store.dispatch('counters/setCounterToEdit', id)

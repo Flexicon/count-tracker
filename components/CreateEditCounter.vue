@@ -4,6 +4,8 @@
     fullscreen
     hide-overlay
     transition="dialog-bottom-transition"
+    @keydown.esc="cancel"
+    @keydown.enter="submit"
   >
     <template v-slot:activator="{ on }">
       <v-btn absolute fab bottom right color="accent" v-on="on">
@@ -12,7 +14,7 @@
     </template>
 
     <v-card>
-      <v-toolbar dark color="primary" class="NewCounter__toolbar">
+      <v-toolbar dark color="primary" class="new-counter__toolbar">
         <v-btn icon dark @click="cancel">
           <v-icon>close</v-icon>
         </v-btn>
@@ -66,7 +68,7 @@
 
           <v-checkbox v-model="automatic" label="Automatic reset?"></v-checkbox>
 
-          <v-btn @click="clear">clear</v-btn>
+          <v-btn @click="resetForm">clear</v-btn>
 
           <v-btn v-if="counterToEdit" color="error" @click="deleteCounter">
             <v-icon left dark>delete</v-icon>
@@ -137,23 +139,22 @@ export default {
       immediate: true,
       handler(counter) {
         if (!counter) {
-          this.clear()
+          this.resetForm()
         } else {
           this.dialog = true
           this.$v.$reset()
-
-          this.name = counter.name
-          this.automatic = counter.automatic
-          this.initialValue = counter.initialValue
-          this.resetPeriod = counter.resetPeriod
+          this.resetForm(counter)
         }
       }
+    },
+    initialValue(value) {
+      this.initialValue = parseInt(value)
     }
   },
   methods: {
     cancel() {
       this.dialog = false
-      this.clear()
+      this.resetForm()
 
       if (this.counterToEdit) {
         this.$emit('editCancelled')
@@ -163,7 +164,7 @@ export default {
       if (this.counterToEdit) {
         const sure = await this.$confirm('Are you sure?')
         if (sure) {
-          const id = this.counterToEdit.id
+          const { id } = this.counterToEdit
           this.cancel()
           this.$emit('deleteCounter', id)
         }
@@ -171,30 +172,33 @@ export default {
     },
     submit() {
       this.$v.$touch()
-
       if (!this.$v.$invalid) {
         const { name, automatic, initialValue, resetPeriod } = this
-        this.$emit('addCounter', { name, automatic, initialValue, resetPeriod })
+        const data = { name, automatic, initialValue, resetPeriod }
+        const action = this.counterToEdit ? 'editCounter' : 'addCounter'
+
+        if (this.counterToEdit) {
+          data.id = this.counterToEdit.id
+        }
+
+        this.$emit(action, data)
         this.dialog = false
-        this.clear()
+        this.resetForm()
       }
     },
-    resetForm() {
-      this.name = ''
-      this.automatic = false
-      this.initialValue = 10
-      this.resetPeriod = null
-    },
-    clear() {
+    resetForm({ name, automatic, initialValue, resetPeriod } = {}) {
       this.$v.$reset()
-      this.resetForm()
+      this.name = name || ''
+      this.automatic = automatic || false
+      this.initialValue = initialValue || 10
+      this.resetPeriod = resetPeriod || null
     }
   }
 }
 </script>
 
 <style>
-.NewCounter__toolbar {
+.new-counter__toolbar {
   border-radius: 0 !important;
 }
 </style>
