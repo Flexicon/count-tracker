@@ -15,10 +15,33 @@ export default {
         hid: 'description',
         name: 'description',
         content: process.env.npm_package_description || ''
-      }
+      },
+      { name: 'theme-color', content: '#4caf50' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      {
+        rel: 'apple-touch-icon',
+        sizes: '180x180',
+        href: '/apple-touch-icon.png'
+      },
+      {
+        rel: 'icon',
+        type: 'image/png',
+        sizes: '16x16',
+        href: '/favicon-16x16.png'
+      },
+      {
+        rel: 'icon',
+        type: 'image/png',
+        sizes: '32x32',
+        href: '/favicon-32x32.png'
+      },
+      {
+        rel: 'mask-icon',
+        color: '#4caf50',
+        href: '/safari-pinned-tab.svg'
+      },
       {
         rel: 'stylesheet',
         href:
@@ -64,11 +87,11 @@ export default {
   vuetify: {
     theme: {
       primary: colors.green.base,
-      accent: colors.orange.darken1,
+      accent: colors.deepOrange.lighten1,
       secondary: colors.lightGreen.base,
       info: colors.blue.lighten1,
       warning: colors.amber.base,
-      error: colors.red.accent4,
+      error: colors.red.accent3,
       success: colors.green.accent3
     }
   },

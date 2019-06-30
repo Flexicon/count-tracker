@@ -21,7 +21,10 @@
 
     <v-toolbar class="layout__toolbar" dark color="primary" fixed app>
       <v-toolbar-side-icon @click="drawer = !drawer" />
-      <v-toolbar-title v-text="title" />
+      <v-toolbar-title class="layout__logo">
+        <img src="/img/vampire.svg" class="layout__logo-img" />
+        <span class="layout__logo-title">{{ title }}</span>
+      </v-toolbar-title>
       <v-spacer />
 
       <v-menu bottom left>
@@ -34,7 +37,7 @@
         <v-list>
           <v-list-tile>
             <v-list-tile-action>
-              <v-switch v-model="editing" color="primary"></v-switch>
+              <v-switch v-model="editing"></v-switch>
             </v-list-tile-action>
             <v-list-tile-title>Edit mode</v-list-tile-title>
           </v-list-tile>
@@ -101,6 +104,17 @@ export default {
 .layout__toolbar {
   .layout__toolbar-menu-btn {
     margin-right: -10px;
+  }
+
+  .layout__logo {
+    display: flex;
+    align-items: center;
+    margin-left: 0 !important;
+
+    &-img {
+      height: 40px;
+      margin-right: 5px;
+    }
   }
 }
 </style>
