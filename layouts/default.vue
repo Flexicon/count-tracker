@@ -27,22 +27,14 @@
       </v-toolbar-title>
       <v-spacer />
 
-      <v-menu bottom left>
-        <template v-slot:activator="{ on }">
-          <v-btn class="layout__toolbar-menu-btn" dark icon v-on="on">
-            <v-icon>more_vert</v-icon>
-          </v-btn>
-        </template>
-
-        <v-list>
-          <v-list-tile>
-            <v-list-tile-action>
-              <v-switch v-model="editing"></v-switch>
-            </v-list-tile-action>
-            <v-list-tile-title>Edit mode</v-list-tile-title>
-          </v-list-tile>
-        </v-list>
-      </v-menu>
+      <v-btn
+        class="layout__toolbar-menu-btn"
+        dark
+        flat
+        @click="editing = !editing"
+      >
+        {{ editing ? 'done' : 'edit' }}
+      </v-btn>
     </v-toolbar>
 
     <v-content>
@@ -102,10 +94,6 @@ export default {
 }
 
 .layout__toolbar {
-  .layout__toolbar-menu-btn {
-    margin-right: -10px;
-  }
-
   .layout__logo {
     display: flex;
     align-items: center;
