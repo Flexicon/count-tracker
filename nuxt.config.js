@@ -12,7 +12,7 @@ export default {
       { charset: 'utf-8' },
       {
         name: 'viewport',
-        content: 'width=device-width, initial-scale=1, user-scalable=0'
+        content: 'width=device-width, initial-scale=1'
       },
       {
         hid: 'description',
@@ -59,7 +59,7 @@ export default {
   /*
    ** Global CSS
    */
-  css: [],
+  css: ['~assets/style/app.styl'],
   /*
    ** Plugins to load before mounting the App
    */
