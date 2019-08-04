@@ -1,4 +1,5 @@
 import uuidv1 from 'uuid/v1'
+import { DateTime } from 'luxon'
 
 export const state = () => ({
   list: [],
@@ -9,6 +10,7 @@ export const state = () => ({
  * Getters
  */
 export const getters = {
+  getAllCounters: state => state.list,
   getCounterById: state => id => {
     return state.list.find(compareId(id))
   }
@@ -77,7 +79,12 @@ export const actions = {
 
   addCounter({ commit }, data) {
     const id = uuidv1()
-    const counter = { ...data, id, value: data.initialValue }
+    const counter = {
+      ...data,
+      id,
+      value: data.initialValue,
+      lastReset: DateTime.fromObject({ hour: 0 }).toISO()
+    }
 
     commit('addCounter', counter)
   },
