@@ -28,6 +28,7 @@ export const mutations = {
 
   resetCounter(state, counter) {
     counter.value = counter.initialValue
+    counter.lastReset = DateTime.fromObject({ hour: 0 }).toISO()
   },
 
   addCounter(state, counter) {
@@ -75,6 +76,16 @@ export const actions = {
     if (counter) {
       commit('resetCounter', counter)
     }
+  },
+
+  resetCounters({ commit, getters }, ids) {
+    ids.forEach(id => {
+      const counter = getters.getCounterById(id)
+
+      if (counter) {
+        commit('resetCounter', counter)
+      }
+    })
   },
 
   addCounter({ commit }, data) {
