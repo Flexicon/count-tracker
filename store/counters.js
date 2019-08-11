@@ -1,4 +1,5 @@
 import uuidv1 from 'uuid/v1'
+import { DateTime } from 'luxon'
 
 export const state = () => ({
   list: [],
@@ -9,8 +10,9 @@ export const state = () => ({
  * Getters
  */
 export const getters = {
+  getAllCounters: state => state.list,
   getCounterById: state => id => {
-    return state.list.find(compareId(id))
+    return state.list.find(item => item.id === id)
   }
 }
 
@@ -26,6 +28,7 @@ export const mutations = {
 
   resetCounter(state, counter) {
     counter.value = counter.initialValue
+    counter.lastReset = DateTime.fromObject({ hour: 0 }).toISO()
   },
 
   addCounter(state, counter) {
@@ -75,9 +78,24 @@ export const actions = {
     }
   },
 
+  resetCounters({ commit, getters }, ids) {
+    ids.forEach(id => {
+      const counter = getters.getCounterById(id)
+
+      if (counter) {
+        commit('resetCounter', counter)
+      }
+    })
+  },
+
   addCounter({ commit }, data) {
     const id = uuidv1()
-    const counter = { ...data, id, value: data.initialValue }
+    const counter = {
+      ...data,
+      id,
+      value: data.initialValue,
+      lastReset: DateTime.fromObject({ hour: 0 }).toISO()
+    }
 
     commit('addCounter', counter)
   },
@@ -105,6 +123,3 @@ export const actions = {
     commit('deleteCounter', id)
   }
 }
-
-// Helpers
-const compareId = id => item => item.id === id

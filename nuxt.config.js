@@ -66,7 +66,8 @@ export default {
   plugins: [
     { src: '~/plugins/vuex-persist', ssr: false },
     { src: '~/plugins/vuelidate', ssr: false },
-    { src: '~/plugins/vuetify-confirm', ssr: false }
+    { src: '~/plugins/vuetify-confirm', ssr: false },
+    { src: '~/plugins/reset-counters', ssr: false }
   ],
   /*
    ** Nuxt.js modules
