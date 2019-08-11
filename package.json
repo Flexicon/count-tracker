@@ -13,7 +13,7 @@
     "generate": "nuxt generate",
     "test": "jest",
     "tdd": "jest --watch",
-    "ci": "yarn run test && yarn run build"
+    "ci": "yarn run test && yarn run generate"
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.3.6",
