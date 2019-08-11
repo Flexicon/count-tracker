@@ -12,7 +12,7 @@ export const state = () => ({
 export const getters = {
   getAllCounters: state => state.list,
   getCounterById: state => id => {
-    return state.list.find(compareId(id))
+    return state.list.find(item => item.id === id)
   }
 }
 
@@ -112,6 +112,3 @@ export const actions = {
     commit('deleteCounter', id)
   }
 }
-
-// Helpers
-const compareId = id => item => item.id === id

@@ -1,4 +1,4 @@
-import { isCounterExpired } from '../utils/expiry-date'
+import { isCounterExpired } from '../helpers/expiry-date'
 
 export default ({ store }) => {
   /* eslint-disable no-console */
