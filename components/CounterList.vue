@@ -1,78 +1,39 @@
 <template>
-  <v-card>
-    <v-list two-line>
-      <template v-for="(counter, index) in counters">
-        <v-list-tile :key="counter.id">
-          <v-list-tile-content>
-            <v-list-tile-title
-              ><span class="CounterList__value primary--text">{{
-                counter.value
-              }}</span>
-              <small class="grey--text"
-                >/ {{ counter.initialValue }}</small
-              ></v-list-tile-title
-            >
-            <v-list-tile-sub-title>{{ counter.name }}</v-list-tile-sub-title>
-          </v-list-tile-content>
+  <div class="CounterList">
+    <v-card v-if="counters.length">
+      <v-list two-line>
+        <template v-for="(counter, index) in counters">
+          <counter-list-item
+            :key="counter.id"
+            :counter="counter"
+            :editing="editing"
+            @counterEdit="onCounterEdit"
+            @counterDecrement="onCounterDecrement"
+            @counterReset="onCounterReset"
+            @counterDelete="onCounterDelete"
+          />
 
-          <v-list-tile-action v-if="!editing">
-            <v-btn
-              icon
-              ripple
-              color="primary"
-              :disabled="counter.value === 0"
-              @click="onDecrement(counter.id)"
-            >
-              <v-icon>
-                arrow_downward
-              </v-icon>
-            </v-btn>
-          </v-list-tile-action>
-
-          <v-list-tile-action v-if="!editing">
-            <v-btn
-              icon
-              ripple
-              color="secondary"
-              :disabled="counter.value === counter.initialValue"
-              @click="onReset(counter.id)"
-            >
-              <v-icon>
-                autorenew
-              </v-icon>
-            </v-btn>
-          </v-list-tile-action>
-
-          <v-list-tile-action v-if="editing">
-            <v-btn icon ripple @click="onCounterEdit(counter.id)">
-              <v-icon>
-                edit
-              </v-icon>
-            </v-btn>
-          </v-list-tile-action>
-
-          <v-list-tile-action v-if="editing">
-            <v-btn
-              icon
-              ripple
-              color="error"
-              @click="onCounterDelete(counter.id)"
-            >
-              <v-icon>
-                delete
-              </v-icon>
-            </v-btn>
-          </v-list-tile-action>
-        </v-list-tile>
-
-        <v-divider v-if="index + 1 < counters.length" :key="index"></v-divider>
-      </template>
-    </v-list>
-  </v-card>
+          <v-divider
+            v-if="index + 1 < counters.length"
+            :key="index"
+          ></v-divider>
+        </template>
+      </v-list>
+    </v-card>
+    <div v-else class="CounterList__empty-message">
+      <v-icon class="grey--text">content_paste</v-icon>
+      <span class="grey--text">No counters yet</span>
+    </div>
+  </div>
 </template>
 
 <script>
+import CounterListItem from './CounterListItem.vue'
+
 export default {
+  components: {
+    CounterListItem
+  },
   props: {
     counters: {
       type: Array,
@@ -87,24 +48,29 @@ export default {
     onCounterEdit(id) {
       this.$emit('counterEdit', id)
     },
-    async onCounterDelete(id) {
-      const sure = await this.$confirm('Are you sure?')
-      if (sure) {
-        this.$emit('counterDelete', id)
-      }
+    onCounterDelete(id) {
+      this.$emit('counterDelete', id)
     },
-    onDecrement(id) {
+    onCounterDecrement(id) {
       this.$emit('counterDecrement', id)
     },
-    onReset(id) {
+    onCounterReset(id) {
       this.$emit('counterReset', id)
     }
   }
 }
 </script>
 
-<style lang="scss">
-.CounterList__value {
-  font-size: 25px;
+<style lang="stylus" scoped>
+.CounterList__empty-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  padding: 30px 0px;
+
+  > span {
+    margin-left: 5px;
+  }
 }
 </style>

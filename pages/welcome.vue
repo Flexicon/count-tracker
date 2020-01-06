@@ -12,9 +12,24 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer />
-          <v-btn color="primary" flat nuxt to="/">Try it out!</v-btn>
+          <v-btn @click="enterApp()" color="primary" flat>Try it out!</v-btn>
         </v-card-actions>
       </v-card>
     </v-flex>
   </v-layout>
 </template>
+
+<script>
+import { UserVisitedKey } from '../middleware/user-has-visited-check'
+
+export default {
+  methods: {
+    enterApp() {
+      if (localStorage) {
+        localStorage.setItem(UserVisitedKey, '1')
+      }
+      this.$router.push({ name: 'index' })
+    }
+  }
+}
+</script>

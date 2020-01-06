@@ -10,12 +10,10 @@ export default ({ store }) => {
   }
 
   window.onNuxtReady(() => {
+    // Reset all expired counters that have been repopulated from stored data
+    resetExpiredCounters()
     // Hook for when the user navigates away or to the app screen
     // whether it's changing their tab or pressing the home button on their phone
     document.addEventListener('visibilitychange', resetExpiredCounters)
-    // Hook for when the vuex store is repopulated with stored data
-    store._vm.$root.$on('storageReady', () =>
-      setTimeout(resetExpiredCounters, 5)
-    )
   })
 }

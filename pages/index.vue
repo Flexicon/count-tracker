@@ -40,6 +40,9 @@ export default {
       return this.$store.state.editing
     }
   },
+  beforeDestroy() {
+    this.$store.dispatch('stopEditing')
+  },
   methods: {
     onCounterDecrement(id) {
       this.$store.dispatch('counters/decrementCounter', id)

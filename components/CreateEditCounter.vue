@@ -1,21 +1,21 @@
 <template>
   <v-dialog
     v-model="dialog"
+    @keydown.esc="cancel"
+    @keydown.enter="submit"
     fullscreen
     hide-overlay
     transition="dialog-bottom-transition"
-    @keydown.esc="cancel"
-    @keydown.enter="submit"
   >
     <template v-slot:activator="{ on }">
-      <v-btn absolute fab bottom right color="accent" v-on="on">
+      <v-btn v-on="on" absolute fab bottom right color="accent">
         <v-icon>add</v-icon>
       </v-btn>
     </template>
 
     <v-card>
       <v-toolbar dark color="primary" class="new-counter__toolbar">
-        <v-btn icon dark @click="cancel">
+        <v-btn @click="cancel" icon dark>
           <v-icon>close</v-icon>
         </v-btn>
 
@@ -30,7 +30,7 @@
         <v-spacer></v-spacer>
 
         <v-toolbar-items>
-          <v-btn flat dark @click="submit">Save</v-btn>
+          <v-btn @click="submit" flat dark>Save</v-btn>
         </v-toolbar-items>
       </v-toolbar>
 
@@ -39,20 +39,20 @@
           <v-text-field
             v-model="name"
             :error-messages="nameErrors"
-            label="Name"
-            required
             @input="$v.name.$touch()"
             @blur="$v.name.$touch()"
+            label="Name"
+            required
           ></v-text-field>
 
           <v-text-field
             v-model="initialValue"
             :error-messages="initialValueErrors"
+            @input="$v.initialValue.$touch()"
+            @blur="$v.initialValue.$touch()"
             label="Initial value"
             mask="####"
             required
-            @input="$v.initialValue.$touch()"
-            @blur="$v.initialValue.$touch()"
           ></v-text-field>
 
           <v-select
@@ -60,17 +60,17 @@
             v-model="resetPeriod"
             :items="periods"
             :error-messages="resetPeriodErrors"
-            label="Reset period"
-            required
             @change="$v.resetPeriod.$touch()"
             @blur="$v.resetPeriod.$touch()"
+            label="Reset period"
+            required
           ></v-select>
 
           <v-checkbox v-model="automatic" label="Automatic reset?"></v-checkbox>
 
           <v-btn @click="resetForm">clear</v-btn>
 
-          <v-btn v-if="counterToEdit" color="error" @click="deleteCounter">
+          <v-btn v-if="counterToEdit" @click="deleteCounter" color="error">
             <v-icon left dark>delete</v-icon>
             remove
           </v-btn>

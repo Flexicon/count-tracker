@@ -64,10 +64,10 @@ export default {
    ** Plugins to load before mounting the App
    */
   plugins: [
-    { src: '~/plugins/vuex-persist', ssr: false },
-    { src: '~/plugins/vuelidate', ssr: false },
-    { src: '~/plugins/vuetify-confirm', ssr: false },
-    { src: '~/plugins/reset-counters', ssr: false }
+    { src: '~/plugins/vuex-persist', mode: 'client' },
+    { src: '~/plugins/vuelidate', mode: 'client' },
+    { src: '~/plugins/vuetify-confirm', mode: 'client' },
+    { src: '~/plugins/reset-counters', mode: 'client' }
   ],
   /*
    ** Nuxt.js modules
@@ -107,5 +107,8 @@ export default {
      ** You can extend webpack config here
      */
     extend(config, ctx) {}
+  },
+  router: {
+    middleware: ['user-has-visited-check']
   }
 }
