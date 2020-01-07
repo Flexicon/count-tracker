@@ -46,7 +46,7 @@
 
     <v-footer class="pa-3">
       <v-flex text-xs-center xs12>
-        <span class="copy">&copy; 2019 CountTracker. All rights reserved.</span>
+        <span class="copy">&copy; 2019 CountTracker</span>
       </v-flex>
     </v-footer>
   </v-app>
