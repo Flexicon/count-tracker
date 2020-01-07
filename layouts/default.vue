@@ -28,10 +28,11 @@
       <v-spacer />
 
       <v-btn
+        v-if="hasEditAction"
+        @click="editing = !editing"
         class="layout__toolbar-menu-btn"
         dark
         flat
-        @click="editing = !editing"
       >
         {{ editing ? 'done' : 'edit' }}
       </v-btn>
@@ -45,7 +46,7 @@
 
     <v-footer class="pa-3">
       <v-flex text-xs-center xs12>
-        <span class="copy">&copy; 2019</span>
+        <span class="copy">&copy; 2019 CountTracker. All rights reserved.</span>
       </v-flex>
     </v-footer>
   </v-app>
@@ -79,6 +80,9 @@ export default {
       set(value) {
         this.$store.dispatch(value ? 'startEditing' : 'stopEditing')
       }
+    },
+    hasEditAction() {
+      return this.$route.name === 'index'
     }
   }
 }
